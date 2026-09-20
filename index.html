@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ทำเนียบเด็กฝึกงาน · PSU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-logo">PSU</div>
+    <div>
+      <div class="t">ทำเนียบเด็กฝึกงาน</div>
+      <div class="s">ศูนย์ปฏิบัติการวิเคราะห์กลาง</div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <button type="button" data-nav="add"><span class="ico">＋</span> เพิ่มข้อมูล</button>
+    <button type="button" class="active" data-nav="list"><span class="ico">👥</span> รายชื่อนักศึกษาฝึกงาน</button>
+    
+  </nav>
+  <div class="sidebar-foot">
+    <div class="av">👤</div>
+    <div>ผู้ดูแลระบบ</div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="conn-banner" id="connBanner"></div>
+
+  <div class="mobile-topbar">
+    <button type="button" class="icon-btn" id="menuToggleBtn">☰</button>
+    <button type="button" class="icon-btn" id="themeToggle">🌓</button>
+  </div>
+
+  <div class="main-header">
+    <div>
+      <h1>👥 รายชื่อนักศึกษาฝึกงาน</h1>
+      <p>รายชื่อนักศึกษาที่ผ่านการฝึกงาน ที่ผ่านมาได้ร่วมเรียนรู้และปฏิบัติงานกับเรา</p>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <button type="button" class="icon-btn" id="themeToggleDesktop" title="สลับโหมดสี">🌓</button>
+      <button type="button" class="btn btn-primary" id="openAddBtn">＋ เพิ่มข้อมูลเด็กฝึกงาน</button>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="search-box">
+      <span>🔍</span>
+      <input type="text" id="searchInput" placeholder="ค้นหาชื่อ-นามสกุล หรือสาขา...">
+    </div>
+    <select class="select-pill" id="deptFilter"><option value="">🎓 ทุกสาขา</option></select>
+    <select class="select-pill" id="yearFilterSelect"><option value="">📅 ทุกปี</option></select>
+    <div class="view-toggle">
+      <button type="button" class="active" id="gridViewBtn" title="มุมมองการ์ด">▦</button>
+      <button type="button" id="listViewBtn" title="มุมมองรายการ">☰</button>
+    </div>
+  </div>
+
+  <div class="chip-row" id="chipRow"></div>
+
+  <div class="grid2" id="grid"></div>
+
+  <div class="pager" id="pager"></div>
+
+  <footer class="site-foot">🌿 "การฝึกงาน คือ ก้าวแรกของการเรียนรู้สู่อนาคต" 🌿</footer>
+</main>
+
+<!-- Add / Edit Modal -->
+<dialog id="internDialog">
+  <form id="internForm">
+    <div class="modal-head">
+      <h2 id="dialogTitle">เพิ่มรายชื่อเด็กฝึกงาน</h2>
+      <button type="button" class="icon-btn" id="closeDialogBtn">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>รูปนักศึกษา</label>
+        <div class="photo-picker">
+          <div class="photo-preview" id="photoPreviewWrap"><img id="photoPreview" src="" alt=""></div>
+          <label class="file-btn" id="fileBtnLabel">
+            เลือกรูปภาพ
+            <input type="file" id="photoInput" accept="image/png,image/jpeg,image/gif,image/webp">
+          </label>
+        </div>
+        <div class="hint" id="photoHint">รูปจะถูกเก็บไว้บนเซิร์ฟเวอร์ ทุกคนที่เปิดหน้านี้จะเห็นรูปเดียวกัน</div>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>คำนำหน้า + ชื่อ-สกุล</label>
+          <input type="text" id="f_name" placeholder="นายกันตพัฒน์ หรูอุไร" required>
+        </div>
+        <div class="field">
+          <label>สาขา</label>
+          <input type="text" id="f_dept" placeholder="เทคโนโลยีธุรกิจดิจิทัล" required>
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>มหาวิทยาลัย</label>
+          <input type="text" id="f_uni" value="มหาวิทยาลัยสงขลานครินทร์" required>
+        </div>
+        <div class="field">
+          <label>มาจากโรงเรียน</label>
+          <input type="text" id="f_school" placeholder="เช่น เทคโนโลยีอุดมศึกษาพณิชยการ">
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>วันที่เริ่มฝึกงาน</label>
+          <input type="date" id="f_start" required>
+        </div>
+        <div class="field">
+          <label>วันที่สิ้นสุดฝึกงาน</label>
+          <input type="date" id="f_end" required>
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>หน่วยงานที่ฝึก</label>
+          <input type="text" id="f_unit" placeholder="งานวิเคราะห์คุณภาพน้ำและสิ่งแวดล้อม" required>
+        </div>
+        <div class="field">
+          <label>ปีที่ฝึกงาน (พ.ศ.)</label>
+          <input type="number" id="f_year" placeholder="2569" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>งานที่ได้รับผิดชอบ</label>
+        <textarea id="f_tasks" placeholder="เช่น วิเคราะห์ตัวอย่างน้ำ จัดทำรายงานผลตรวจ ดูแลเครื่องมือวิทยาศาสตร์"></textarea>
+      </div>
+
+      <div class="field">
+        <label>ความรู้สึกในวันที่ฝึกงานจบลง</label>
+        <textarea id="f_feeling" placeholder="เช่น ได้เรียนรู้การทำงานจริง ได้เพื่อนใหม่ และประสบการณ์ที่ไม่มีในห้องเรียน"></textarea>
+      </div>
+
+         <div class="field" id="passField">
+        <label>ตั้งรหัสสำหรับแก้ไข/ลบการ์ดนี้ (อย่างน้อย 6 ตัว)</label>
+        <input type="password" id="f_pass" minlength="6" autocomplete="new-password" placeholder="จดรหัสไว้ให้ดี">
+        <div class="hint">ลืมรหัสแล้วกู้เองไม่ได้ ต้องให้ผู้ดูแลช่วย</div>
+      </div>
+
+    </div>
+    <div class="modal-foot">
+      <span class="modal-status" id="modalStatus"></span>
+      <button type="button" class="btn btn-ghost" id="cancelBtn">ยกเลิก</button>
+      <button type="submit" class="btn btn-primary" id="submitBtn">บันทึก</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Profile Detail Dialog -->
+<dialog id="detailDialog" class="detail-dialog">
+  <button type="button" class="detail-close" id="detailCloseBtn">✕</button>
+  <div id="detailContent"></div>
+</dialog>
+
+<dialog id="passDialog" style="border:none;border-radius:14px;padding:0;max-width:340px;width:90%;">
+  <form id="passForm" style="padding:20px;display:flex;flex-direction:column;gap:12px;">
+    <h3 id="passTitle" style="margin:0;">กรอกรหัสผ่าน</h3>
+    <input type="password" id="passInput" autocomplete="off" placeholder="รหัสผ่าน" style="padding:10px;font-size:16px;">
+    <div style="display:flex;gap:8px;justify-content:flex-end;">
+      <button type="button" class="btn btn-ghost" id="passCancel">ยกเลิก</button>
+      <button type="submit" class="btn btn-primary">ตกลง</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
