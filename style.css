@@ -472,37 +472,3 @@ dialog[open]::backdrop {
   0%,100%{ transform:scale(1); opacity:1; }
   50%{ transform:scale(.9); opacity:.8; }
 }
-
-/* ---------- Credits dialog ---------- */
-dialog.credits-dialog{
-  width:min(360px,90vw); text-align:center; padding:28px 22px 22px; position:relative;
-}
-.credits-logo{
-  width:56px; height:56px; border-radius:50%; background:var(--primary); color:#fff;
-  display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.9rem;
-  margin:0 auto 12px;
-}
-.credits-dialog h2{ margin:0 0 2px; font-size:1.05rem; }
-.credits-dialog .sub{ font-size:.78rem; color:var(--ink-soft); margin:0 0 16px; }
-.credits-divider{ border-top:1px solid var(--line); margin:0 0 16px; }
-.credits-role{ font-size:.72rem; color:var(--ink-soft); margin:0 0 8px; }
-.credits-avatar{
-  width:48px; height:48px; border-radius:50%; background:var(--primary-tint); color:var(--primary);
-  display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1rem;
-  margin:0 auto 8px;
-}
-.credits-name{ font-weight:700; font-size:.92rem; margin:0 0 2px; }
-.credits-major{ font-size:.78rem; color:var(--ink-soft); margin:0 0 14px; }
-.credits-links{ display:flex; justify-content:center; gap:14px; margin-bottom:16px; font-size:1.15rem; }
-.credits-links a{ color:var(--ink-soft); text-decoration:none; }
-.credits-links a:hover{ color:var(--primary); }
-.credits-stack{ display:flex; justify-content:center; flex-wrap:wrap; gap:6px; margin-bottom:14px; }
-.credits-stack span{
-  font-size:.7rem; padding:3px 10px; border-radius:999px; background:var(--bg); color:var(--ink-soft); border:1px solid var(--line);
-}
-.credits-foot{ font-size:.68rem; color:var(--ink-soft); margin:0; }
-.credits-close{
-  position:absolute; top:12px; right:12px; width:30px; height:30px; border-radius:50%;
-  border:none; background:var(--bg); color:var(--ink-soft); cursor:pointer; font-size:.9rem;
-}
-.credits-close:hover{ background:var(--primary-tint); color:var(--primary); }
