@@ -20,7 +20,18 @@
 
   function showBanner(msg){ var b = el("connBanner"); b.textContent = msg; b.style.display = "block"; }
   function hideBanner(){ el("connBanner").style.display = "none"; }
-
+ function showLoading(){
+    var ls = el("loadingState");
+    if (ls) ls.style.display = "flex";
+    var g = el("grid");
+    if (g) g.style.display = "none";
+  }
+  function hideLoading(){
+    var ls = el("loadingState");
+    if (ls) ls.style.display = "none";
+    var g = el("grid");
+    if (g) g.style.display = "";
+  }
   /* ---------------- ส่วนติดต่อ Supabase ---------------- */
   function fromRow(x){
     return {
@@ -34,13 +45,14 @@
   }
 
   async function loadAll(){
+    showLoading();
     var res = await db.from("interns").select("*").order("created_at", { ascending: false });
-    if (res.error){ showBanner("การเชื่อมต่อมีปัญหา: " + res.error.message); return; }
+    if (res.error){ hideLoading(); showBanner("การเชื่อมต่อมีปัญหา: " + res.error.message); return; }
     state.records = res.data.map(fromRow);
     hideBanner();
     render();
+    hideLoading();
   }
-
   async function uploadPhoto(file){
     var ext = (file.name.split(".").pop() || "jpg").toLowerCase();
     var path = crypto.randomUUID() + "." + ext;
@@ -550,12 +562,13 @@
   el("themeToggleDesktop").addEventListener("click", toggleTheme);
 
   /* ---------------- เริ่มทำงาน ---------------- */
-  (async function init(){
-    render();
+   (async function init(){
+    showLoading();
     if (typeof db === "undefined" || !db){
+      hideLoading();
+      render();
       showBanner("ไม่พบการเชื่อมต่อ Supabase — เช็ก config.js และลำดับ <script> ใน index.html");
       return;
     }
     await loadAll();
   })();
-})();
