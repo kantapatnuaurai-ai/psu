@@ -10,7 +10,17 @@
     search: "", deptFilter: "", view: "grid", page: 1
   };
   var db = null, assets = null, pendingPhotoId = null;
-
+  function hideLoading(){
+    var loading = document.getElementById("loadingScreen");
+  
+    if (loading) {
+      loading.classList.add("hide");
+  
+      setTimeout(function(){
+        loading.remove();
+      }, 400);
+    }
+  }
   function safeGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
   function safeSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
   function el(id){ return document.getElementById(id); }
@@ -444,16 +454,17 @@
   el("themeToggleDesktop").addEventListener("click", toggleTheme);
 
   /* ---------------- Live data subscription ---------------- */
-  function subscribe(){
-    db.collection("interns").onSnapshot(function(snap){
-      state.records = snap.docs.map(function(d){ return Object.assign({id:d.id}, d.data); });
-      hideBanner();
-      render();
-    }, function(err){
-      showBanner("การเชื่อมต่อมีปัญหา: " + (err.message||err.code));
-    });
-  }
-
+function subscribe(){
+  db.collection("interns").onSnapshot(function(snap){
+    state.records = snap.docs.map(function(d){ return Object.assign({id:d.id}, d.data); });
+    hideBanner();
+    render();
+    hideLoading();
+  }, function(err){
+    showBanner("การเชื่อมต่อมีปัญหา: " + (err.message||err.code));
+    hideLoading();
+  });
+}
   (async function init(){
     render();
     try{ db = await claude.use("db"); }catch(e){ db = null; }
