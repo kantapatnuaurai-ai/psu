@@ -456,27 +456,19 @@ dialog[open]::backdrop {
 }
 /* ---------- Loading state ---------- */
 .loading-state{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:16px;
-  padding:70px 20px;
-  grid-column:1/-1;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:16px; padding:70px 20px; grid-column:1/-1;
 }
-
-.loading-state.hide{
-  opacity:0;
-  visibility:hidden;
-  transition:opacity .4s ease, visibility .4s ease;
+.loading-ring{ position:relative; width:64px; height:64px; display:flex; align-items:center; justify-content:center; }
+.loading-ring svg{ position:absolute; inset:0; animation:loadingSpin 1.3s linear infinite; }
+.loading-ring .core{
+  width:30px; height:30px; border-radius:50%; background:var(--primary); color:#fff;
+  display:flex; align-items:center; justify-content:center; font-size:.95rem;
+  animation:loadingPulse 1.3s ease-in-out infinite;
 }
-
-.loading-ring{
-  position:relative;
-  width:64px;
-  height:64px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
+.loading-state .msg{ color:var(--ink-soft); font-size:.85rem; }
+@keyframes loadingSpin{ to{ transform:rotate(360deg); } }
+@keyframes loadingPulse{
+  0%,100%{ transform:scale(1); opacity:1; }
+  50%{ transform:scale(.9); opacity:.8; }
 }
